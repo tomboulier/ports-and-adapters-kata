@@ -1,4 +1,5 @@
 from domain.weather_observation import create_weather_observation, WeatherObservationRepository, WeatherObservation
+from infrastructure.open_meteo_api import OpenMeteoAPI
 
 
 def test_create_weather_observation():
@@ -36,3 +37,9 @@ def test_get_weather_observation_from_in_memory_repository():
     repository = InMemoryWeatherObservationRepository()
     observations = repository.get_all_weather_observations()
     assert len(observations) == 2
+
+
+def test_unit_open_meteo_api():
+    open_meteo_api = OpenMeteoAPI()
+    observations = open_meteo_api.get_all_weather_observations()
+    assert len(observations) > 0
