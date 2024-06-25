@@ -1,4 +1,7 @@
+import os
+
 from domain.weather_observation import create_weather_observation, WeatherObservationRepository, WeatherObservation
+from infrastructure.csv_export import CsvExporter
 from infrastructure.open_meteo_api import OpenMeteoAPI
 
 LIST_OF_TWO_WEATHER_OBSERVATIONS = [
@@ -46,3 +49,11 @@ def test_unit_open_meteo_api():
     observations = open_meteo_api.get_all_weather_observations()
     assert len(observations) > 0
     assert isinstance(observations[0], WeatherObservation)
+
+
+def test_unit_csv_exporter():
+    test_filename = 'test.csv'
+    csv_exporter = CsvExporter(test_filename)
+    csv_exporter.export(LIST_OF_TWO_WEATHER_OBSERVATIONS)
+    assert os.path.exists(test_filename)
+    os.remove(test_filename)
