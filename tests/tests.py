@@ -1,6 +1,8 @@
 import os
 
+from domain.weather_app import WeatherApp
 from domain.weather_observation import create_weather_observation, WeatherObservationRepository, WeatherObservation
+from infrastructure.console_adapter import ConsoleAdapter
 from infrastructure.csv_export import CsvExporter
 from infrastructure.open_meteo_api import OpenMeteoAPI
 
@@ -55,5 +57,23 @@ def test_unit_csv_exporter():
     test_filename = 'test.csv'
     csv_exporter = CsvExporter(test_filename)
     csv_exporter.export(LIST_OF_TWO_WEATHER_OBSERVATIONS)
+    assert os.path.exists(test_filename)
+    os.remove(test_filename)
+
+
+def test_integration_end_to_end_open_meteo_api_and_csv_exporter():
+    # 1. Instantiate right-side adapter(s) ("I want to go outside the hexagon")
+    open_meteo_api = OpenMeteoAPI()
+    test_filename = 'test.csv'
+    csv_exporter = CsvExporter(test_filename)
+
+    # 2. Instantiate the hexagon
+    weather_app = WeatherApp(open_meteo_api, csv_exporter)
+
+    # 3. Instantiate the left-side adapter(s) ("I want ask/to go inside the hexagon")
+    console_adapter = ConsoleAdapter(weather_app)
+    console_adapter.get_and_export_all_weather_observations()
+
+    # 4. Assert
     assert os.path.exists(test_filename)
     os.remove(test_filename)
