@@ -20,4 +20,10 @@ def create_weather_observation(id: int,
                                pressure: float,
                                wind_direction: str
                                ) -> WeatherObservation:
-    return None
+    return WeatherObservation(id=id,
+                              name=name,
+                              date=date,
+                              time=time,
+                              temperature=temperature,
+                              pressure=pressure,
+                              wind_direction=wind_direction)
