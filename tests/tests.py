@@ -43,3 +43,4 @@ def test_unit_open_meteo_api():
     open_meteo_api = OpenMeteoAPI()
     observations = open_meteo_api.get_all_weather_observations()
     assert len(observations) > 0
+    assert isinstance(observations[0], WeatherObservation)
