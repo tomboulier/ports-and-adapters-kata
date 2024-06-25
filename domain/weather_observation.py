@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from abc import ABC, abstractmethod
 
 
 @dataclass
@@ -27,3 +28,9 @@ def create_weather_observation(id: int,
                               temperature=temperature,
                               pressure=pressure,
                               wind_direction=wind_direction)
+
+
+class WeatherObservationRepository(ABC):
+    @abstractmethod
+    def get_all_weather_observations(self) -> list[WeatherObservation]:
+        pass
