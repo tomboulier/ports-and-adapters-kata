@@ -1,5 +1,3 @@
-__author__ = 'hschmeisky'
-
 import requests, json
 
 url = 'http://apis.is/weather/observations/en?stations=1'
